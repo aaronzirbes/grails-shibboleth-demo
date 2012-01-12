@@ -48,6 +48,19 @@
             margin-left:280px;
             margin-right:20px;
         }
+
+		dt {
+			font-family: monospace;
+			font-weight: bold;
+		}
+		dd {
+			font-family: monospace;
+			font-weight: bold;
+			margin-top: 0.5em;
+			margin-left: 2em;
+			clear:right;
+			background-color: #F81;
+		}
         </style>
     </head>
     <body>
