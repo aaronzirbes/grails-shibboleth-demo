@@ -122,6 +122,7 @@
 			<hr/>
 			<p>Spring Secuirty Filter <a href="${resource(file:'/')}j_spring_shibboleth_native_sp_security_check">Shibboleth</a>.</p>
 			<p>Spring Secuirty Filter <a href="${resource(file:'/')}j_spring_mock_security_check">Mock</a>.</p>
+			<p>Spring Secuirty Filter <a href="${resource(file:'/')}j_spring_security_logout">Logout</a>.</p>
 			<hr/>
 
             <h2>Shibboleth Native SP Links</h2>

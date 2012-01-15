@@ -96,7 +96,10 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+
+	debug  'edu.umn.shibboleth.sp'
 }
+
 
 //*** BEGIN MOCK SECURITY CONFIGURATION SETTING ***/
 grails.plugins.springsecurity.mock.fullName = "Aaron J. Zirbes"
