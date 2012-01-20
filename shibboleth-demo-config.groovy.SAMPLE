@@ -1,0 +1,72 @@
+// Put this in your ~/.grails/ folder
+
+//*** BEGIN MOCK SECURITY CONFIGURATION SETTING ***/
+grails.plugins.springsecurity.mock.fullName = "Aaron J. Zirbes"
+grails.plugins.springsecurity.mock.email = "ajz@umn.edu"
+grails.plugins.springsecurity.mock.username =  "ajz"
+grails.plugins.springsecurity.mock.roles = [ 'ROLE_USER', 'ROLE_ADMIN', 'ROLE_LOCALHOST_IP' ]
+
+// Set this if you wish to load roles from LDAP instead of the above configuration parameter
+grails.plugins.springsecurity.ldap.usernameMapper.userDnBase = 'OU=People,DC=ad,DC=umn,DC=edu'
+//*** END MOCK SECURITY CONFIGURATION SETTING ***/
+
+
+//*** BEGIN LDAP CONFIGURATION SETTINGS ***//
+// LDAP config ... see spring-security-ldap for details
+
+// Set this to true to always use LDAP for roles
+grails.plugins.springsecurity.ldap.active = true
+
+grails.plugins.springsecurity.ldap.context.managerDn = '[YOURLDAPMANAGERDN]'
+grails.plugins.springsecurity.ldap.context.managerPassword = '[YOURPASSWORD]'
+grails.plugins.springsecurity.ldap.context.server = 'ldap://[host]:[port]/'
+grails.plugins.springsecurity.ldap.authorities.ignorePartialResultException = true // typically needed for Active Directory
+grails.plugins.springsecurity.ldap.search.base = 'OU=People,DC=ad,DC=umn,DC=edu'
+grails.plugins.springsecurity.ldap.search.filter="cn={0}" // for Active Directory you need this
+//grails.plugins.springsecurity.ldap.search.filter="sAMAccountName={0}" // for Active Directory you need this
+grails.plugins.springsecurity.ldap.search.searchSubtree = true
+grails.plugins.springsecurity.ldap.auth.hideUserNotFoundExceptions = false
+grails.plugins.springsecurity.ldap.search.attributesToReturn = ['mail', 'displayName'] // extra attributes you want returned; see below for custom classes that access this data
+// role-specific LDAP config
+grails.plugins.springsecurity.ldap.useRememberMe = false
+grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
+grails.plugins.springsecurity.ldap.authorities.groupSearchBase ='ou=Medical,ou=TC,ou=Units,dc=ad,dc=umn,dc=edu'
+// Active Directory specific - the example settings will work fine for a plain LDAP server
+grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = '(member:1.2.840.113556.1.4.1941:={0})'
+// role cleaning
+grails.plugins.springsecurity.ldap.authorities.clean.prefix = 'EnHS-'
+grails.plugins.springsecurity.ldap.authorities.clean.dashes = true
+grails.plugins.springsecurity.ldap.authorities.clean.uppercase = true
+//*** END LDAP CONFIGURATION SETTINGS ***//
+
+//*** BEGIN SHIBBOLETH CONFIGURATION SETTINGS ***/
+// Used by Controllers
+grails.plugins.springsecurity.shibboleth.loginUrl = '/Shibboleth.sso/Login?target={0}'
+grails.plugins.springsecurity.shibboleth.logoutUrl = '/Shibboleth.sso/Logout'
+
+// Token Attributes
+grails.plugins.springsecurity.shibboleth.principalUsername.attribute = 'EPPN'
+grails.plugins.springsecurity.shibboleth.authenticationMethod.attribute = 'Shib-Authentication-Method'
+grails.plugins.springsecurity.shibboleth.identityProvider.attribute = 'Shib-Identity-Provider'
+grails.plugins.springsecurity.shibboleth.authenticationInstant.attribute = 'Shib-Authentication-Instant'
+
+// Used by Authentication Provider, Exposed by IdP
+grails.plugins.springsecurity.shibboleth.roles.attribute = null
+grails.plugins.springsecurity.shibboleth.roles.separator = ','
+grails.plugins.springsecurity.shibboleth.roles.prefix = 'SHIB_'
+grails.plugins.springsecurity.shibboleth.extraAttributes = [ 'uid', 'Shib-Session-Index', 'Shib-Session-ID', 'Shib-AuthnContext-Class', 'Shib-Application-ID' ]
+
+// This maps roles to authentication methods to allow for security annotations
+// for securing based on method
+grails.plugins.springsecurity.shibboleth.authenticationMethod.roles = [
+    'ROLE_UMN_MKEY': 'https://www.umn.edu/shibboleth/classes/authncontext/mkey' ]
+	// grails.plugins.springsecurity.shibboleth.authenticationMethod.roles = null
+
+// Allow location based roles
+grails.plugins.springsecurity.remoteaddress.roles = [
+	'ROLE_LOCALHOST_IP': ['127.0.0.0/8', '::1/128'],
+	'ROLE_UMN_CAMPUS_IP': ['160.94.0.0/16', '128.101.0.0/16', '134.84.0.0/16'],
+	'ROLE_ENHS_HS_IP': ['160.94.224.0/25', '128.101.60.128/25', '134.84.107.192/26'] ]
+
+//*** END SHIBBOLETH CONFIGURATION SETTINGS ***/
+

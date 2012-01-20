@@ -1,10 +1,10 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
+grails.config.locations = [ "classpath:${appName}-config.properties",
+                            "classpath:${appName}-config.groovy",
+                            "file:${userHome}/.grails/${appName}-config.properties",
+                            "file:${userHome}/.grails/${appName}-config.groovy"]
 
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
@@ -97,45 +97,9 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-	debug  'edu.umn.shibboleth.sp'
+	debug  'edu.umn.shibboleth.sp',
+	       'org.springframework.security.ldap',
+		   'org.codehaus.groovy.grails.plugins.springsecurity.ldap'
+
 }
 
-
-//*** BEGIN MOCK SECURITY CONFIGURATION SETTING ***/
-grails.plugins.springsecurity.mock.fullName = "Aaron J. Zirbes"
-grails.plugins.springsecurity.mock.email = "ajz@umn.edu"
-grails.plugins.springsecurity.mock.username =  "ajz"
-grails.plugins.springsecurity.mock.roles = [ 'ROLE_USER', 'ROLE_ADMIN', 'ROLE_LOCALHOST_IP' ]
-//*** END MOCK SECURITY CONFIGURATION SETTING ***/
-
-//*** BEGIN SHIBBOLETH CONFIGURATION SETTINGS ***/
-
-// Used by Controllers
-grails.plugins.springsecurity.shibboleth.loginUrl = '/Shibboleth.sso/Login?target={0}'
-grails.plugins.springsecurity.shibboleth.logoutUrl = '/Shibboleth.sso/Logout'
-
-// Token Attributes
-grails.plugins.springsecurity.shibboleth.principalUsername.attribute = 'EPPN'
-grails.plugins.springsecurity.shibboleth.authenticationMethod.attribute = 'Shib-Authentication-Method'
-grails.plugins.springsecurity.shibboleth.identityProvider.attribute = 'Shib-Identity-Provider'
-grails.plugins.springsecurity.shibboleth.authenticationInstant.attribute = 'Shib-Authentication-Instant'
-
-// Used by Authentication Provider, Exposed by IdP
-grails.plugins.springsecurity.shibboleth.roles.attribute = null
-grails.plugins.springsecurity.shibboleth.roles.separator = ','
-grails.plugins.springsecurity.shibboleth.roles.prefix = 'SHIB_'
-grails.plugins.springsecurity.shibboleth.extraAttributes = [ 'uid', 'Shib-Session-Index', 'Shib-Session-ID', 'Shib-AuthnContext-Class', 'Shib-Application-ID' ]
-
-// This maps roles to authentication methods to allow for security annotations
-// for securing based on method
-grails.plugins.springsecurity.shibboleth.authenticationMethod.roles = [
-    'ROLE_UMN_MKEY': 'https://www.umn.edu/shibboleth/classes/authncontext/mkey' ]
-	// grails.plugins.springsecurity.shibboleth.authenticationMethod.roles = null
-
-// Allow location based roles
-grails.plugins.springsecurity.remoteaddress.roles = [
-	'ROLE_LOCALHOST_IP': ['127.0.0.0/8', '::1/128'],
-	'ROLE_UMN_CAMPUS_IP': ['160.94.0.0/16', '128.101.0.0/16', '134.84.0.0/16'],
-	'ROLE_ENHS_HS_IP': ['160.94.224.0/25', '128.101.60.128/25', '134.84.107.192/26'] ]
-
-//*** END SHIBBOLETH CONFIGURATION SETTINGS ***/
